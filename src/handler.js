@@ -123,4 +123,4 @@ const remove = (request, h) => {
     .code(404);
 };
 
-export { add, all, detail, edit, remove  };
+export { add, all, detail, edit, remove };
