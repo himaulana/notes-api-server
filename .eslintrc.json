@@ -15,6 +15,7 @@
     "import/no-extraneous-dependencies": "off",
     "import/extensions": "off",
     "multiline": "off",
-    "object-curly-newline": "off"
+    "object-curly-newline": "off",
+    "class-methods-use-this": "off"
   }
 }
