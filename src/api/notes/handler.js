@@ -30,10 +30,12 @@ export default class NotesHandler {
       .code(500);
   };
 
-  postNoteHandler = (request, h) => {
+  postNoteHandler = async (request, h) => {
     try {
       this.#validator.validateNotePayload(request.payload);
-      const noteId = this.#service.addNote(request.payload);
+
+      const { title = 'untitled', body, tags } = request.payload;
+      const noteId = await this.#service.addNote({ title, body, tags });
 
       return h
         .response({
@@ -49,8 +51,8 @@ export default class NotesHandler {
     }
   };
 
-  getNotesHandler = (request, h) => {
-    const notes = this.#service.getNotes();
+  getNotesHandler = async (request, h) => {
+    const notes = await this.#service.getNotes();
 
     return h
       .response({
@@ -62,10 +64,10 @@ export default class NotesHandler {
       .code(200);
   };
 
-  getNoteByIdHandler = (request, h) => {
+  getNoteByIdHandler = async (request, h) => {
     try {
       const { id } = request.params;
-      const note = this.#service.getNote(id);
+      const note = await this.#service.getNotesById(id);
 
       return {
         status: 'success',
@@ -78,11 +80,13 @@ export default class NotesHandler {
     }
   };
 
-  putNoteByIdHandler = (request, h) => {
+  putNoteByIdHandler = async (request, h) => {
     try {
       this.#validator.validateNotePayload(request.payload);
+
       const { id } = request.params;
-      this.#service.editNote(id, request.payload);
+      const { title = 'untitled', body, tags } = request.payload;
+      await this.#service.editNoteById(id, { title, body, tags });
 
       return h
         .response({
@@ -95,10 +99,10 @@ export default class NotesHandler {
     }
   };
 
-  deleteNoteByIdHandler = (request, h) => {
+  deleteNoteByIdHandler = async (request, h) => {
     try {
       const { id } = request.params;
-      this.#service.deleteNote(id);
+      await this.#service.deleteNoteById(id);
 
       return h
         .response({

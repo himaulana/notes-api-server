@@ -1,3 +1,5 @@
 node_modules
 MaulanaDeveloper_credentials.csv
-notes-api-server.pem
+notes-api-key.pem
+.env
+.env.prod
